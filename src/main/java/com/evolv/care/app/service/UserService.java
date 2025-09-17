@@ -21,6 +21,12 @@ public class UserService {
 
     public UserInfo createUser(UserInfo userInfo) {
         Long userId = SecurityUtils.getAuthenticatedUserId();
+
+        userRepository.findByUserName(userInfo.getUserName())
+                .ifPresent(u -> {
+                    throw new IllegalArgumentException("User already exists: " + userInfo.getUserName());
+                });
+
         UserEntity user = UserEntity.builder()
                 .userName(userInfo.getUserName())
                 .shortName(userInfo.getShortName())
