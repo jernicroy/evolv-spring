@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/changes/001-create-t100-user.yaml
+  - include:
+      file: db/changelog/changes/002-create-t200-family-member.yaml
+  - include:
+      file: db/changelog/changes/003-create-t300-medication.yaml
+  - include:
+      file: db/changelog/changes/004-create-t400-appointment.yaml
+  - include:
+      file: db/changelog/changes/005-create-t500-adherence-log.yaml
+  - include:
+      file: db/changelog/changes/006-create-t600-prescription.yaml
+  - changeSet:
+      id: 002-add-unique-email
+      author: evolv
+      changes:
+        - addUniqueConstraint:
+            columnNames: c100_email
+            tableName: t100_user
+            constraintName: t100_user_c100_email_key
+  - changeSet:
+      id: 002-add-user-role-constraint
+      author: evolv
+      changes:
+        - sql:
+            splitStatements: false
+            sql: |
+              ALTER TABLE t100_user
+              ADD CONSTRAINT chk_user_role
+              CHECK (c100_role IN ('SUPER_ADMIN','ADMIN','USER'));

@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: Evolve Home Sync
+
+  profiles:
+    active: dev   # default profile
+
+server:
+  port: 8080
+  servlet:
+    context-path: /evolv-care

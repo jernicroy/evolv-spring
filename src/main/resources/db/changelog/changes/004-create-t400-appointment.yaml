@@ -1,0 +1,56 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-create-t400-appointment
+      author: evolv
+      changes:
+        - createTable:
+            tableName: t400_appointment
+            schemaName: public
+            remarks: "Stores appointments, tests, and vaccinations"
+            columns:
+              - column:
+                  name: c400_appointment_id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: c400_family_member_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: c400_type
+                  type: VARCHAR(100)
+              - column:
+                  name: c400_date_time
+                  type: TIMESTAMPTZ
+              - column:
+                  name: c400_notes
+                  type: TEXT
+              - column:
+                  name: c400_created_by
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: c400_created_date
+                  type: TIMESTAMPTZ
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+              - column:
+                  name: c400_updated_date
+                  type: TIMESTAMP
+              - column:
+                  name: c400_updated_by
+                  type: VARCHAR(255)
+              - column:
+                  name: c400_void_fl
+                  type: VARCHAR(10)
+        - addForeignKeyConstraint:
+            baseTableName: t400_appointment
+            baseColumnNames: c400_family_member_id
+            constraintName: fk_t400_family_member
+            referencedTableName: t200_family_member
+            referencedColumnNames: c200_family_member_id

@@ -1,0 +1,58 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005-create-t500-adherence-log
+      author: evolv
+      changes:
+        - createTable:
+            tableName: t500_adherence_log
+            schemaName: public
+            remarks: "Stores adherence logs for medications"
+            columns:
+              - column:
+                  name: c500_adherence_id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: c500_medication_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: c500_taken
+                  type: BOOLEAN
+                  constraints:
+                    nullable: false
+              - column:
+                  name: c500_timestamp
+                  type: TIMESTAMPTZ
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+              - column:
+                  name: c500_created_by
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: c500_created_date
+                  type: TIMESTAMPTZ
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+              - column:
+                  name: c500_updated_date
+                  type: TIMESTAMP
+              - column:
+                  name: c500_updated_by
+                  type: VARCHAR(255)
+              - column:
+                  name: c500_void_fl
+                  type: VARCHAR(10)
+        - addForeignKeyConstraint:
+            baseTableName: t500_adherence_log
+            baseColumnNames: c500_medication_id
+            constraintName: fk_t500_medication
+            referencedTableName: t300_medication
+            referencedColumnNames: c300_medication_id

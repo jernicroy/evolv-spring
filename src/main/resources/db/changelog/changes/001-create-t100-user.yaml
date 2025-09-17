@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-t100-user
+      author: evolv
+      changes:
+        - createTable:
+            tableName: t100_user
+            schemaName: public
+            remarks: "User Table stores User Informations"
+            columns:
+              - column:
+                  name: c100_user_id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: c100_user_name
+                  type: VARCHAR(255)
+                  constraints:
+                    unique: true
+              - column:
+                  name: c100_user_sh_name
+                  type: VARCHAR(255)
+              - column:
+                  name: c100_email
+                  type: VARCHAR(255)
+              - column:
+                  name: c100_hash_code
+                  type: VARCHAR(255)
+              - column:
+                  name: c100_role
+                  type: VARCHAR(255)
+              - column:
+                  name: c100_created_by
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: c100_created_date
+                  type: TIMESTAMPTZ
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+              - column:
+                  name: c100_updated_date
+                  type: TIMESTAMP
+              - column:
+                  name: c100_updated_by
+                  type: VARCHAR(255)
+              - column:
+                  name: c100_void_fl
+                  type: VARCHAR(10)
