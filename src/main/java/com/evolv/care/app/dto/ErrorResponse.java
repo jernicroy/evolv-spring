@@ -1,16 +1,8 @@
 package com.evolv.care.app.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
 
-import java.time.Instant;
+@Builder
+public record ErrorResponse (int status, String errorCode, String message){
 
-@Data
-@AllArgsConstructor
-public class ErrorResponse {
-    private Instant timestamp;
-    private int status;
-    private String error;
-    private String message;
-    private String path;
 }

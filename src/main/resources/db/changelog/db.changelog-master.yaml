@@ -29,3 +29,18 @@ databaseChangeLog:
               ALTER TABLE t100_user
               ADD CONSTRAINT chk_user_role
               CHECK (c100_role IN ('SUPER_ADMIN','ADMIN','USER'));
+  - changeSet:
+      id: 002-add-phone-address-to-user
+      author: evolv
+      changes:
+        - addColumn:
+            tableName: t100_user
+            columns:
+              - column:
+                  name: c100_phone_number
+                  type: varchar(20)
+                  remarks: "User phone number"
+              - column:
+                  name: c100_address
+                  type: varchar(255)
+                  remarks: "User address"
