@@ -33,7 +33,7 @@ WORKDIR /app
 EXPOSE 8080
 
 # Copy the JAR and static Javadocs from the build stage
-COPY --from=build /build/libs/EvolveHomeSync-0.0.1-SNAPSHOT.jar /app/EvolveHomeSync-0.0.1.jar
+COPY --from=build /build/libs/EvolveHomeSync-0.0.1.jar /app/EvolveHomeSync-0.0.1.jar
 #COPY --from=build /build/docs/javadoc /app/static
 
 # Entry point to run the application
