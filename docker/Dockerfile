@@ -1,40 +1,31 @@
-# --------------------
-# Build stage
-# --------------------
-FROM ubuntu:latest AS build
-
-# Install Java 17 and unzip for Gradle wrapper
-RUN apt-get update && \
-    apt-get install -y openjdk-17-jdk unzip && \
-    apt-get clean
-
-# Set environment variables
-ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-ENV PATH=$JAVA_HOME/bin:$PATH
-
-# Copy project files
-COPY . .
-
-# Grant execute permission for Gradle wrapper
-RUN chmod +x ./gradlew
-
-# Build the project and generate Javadoc
-RUN ./gradlew clean build # javadoc -x test
-
-# --------------------
-# Runtime stage
-# --------------------
-FROM openjdk:17-jdk-slim
-
-# Set working directory
+# ---- Build Stage ----
+FROM gradle:8.14.3-jdk17-alpine AS builder
 WORKDIR /app
 
-# Expose the port your Spring Boot app will run on
+# Copy Gradle wrapper and build files first (for caching)
+COPY gradlew ./
+COPY gradle ./gradle
+COPY build.gradle settings.gradle ./
+
+# Download dependencies
+RUN ./gradlew --no-daemon build -x test || return 0
+
+# Copy source code
+COPY src ./src
+
+# Build the app (skip tests for faster builds, remove -x test if you want tests)
+RUN ./gradlew clean bootJar --no-daemon -x test
+
+# ---- Run Stage ----
+FROM eclipse-temurin:17-jre-alpine
+WORKDIR /app
+
+# Copy only the built jar from builder
+COPY --from=builder /app/build/libs/*.jar evolv-app.jar
+
+# Expose the default Spring Boot port
 EXPOSE 8080
 
-# Copy the JAR and static Javadocs from the build stage
-COPY --from=build /build/libs/EvolveHomeSync-0.0.1.jar /app/EvolveHomeSync-0.0.1.jar
-#COPY --from=build /build/docs/javadoc /app/static
 
-# Entry point to run the application
-ENTRYPOINT ["java","-jar","/app/EvolveHomeSync-0.0.1.jar"]
+# Run the application
+ENTRYPOINT ["java","-jar","evolv-app.jar"]
