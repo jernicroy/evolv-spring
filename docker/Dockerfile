@@ -30,4 +30,4 @@ EXPOSE 8080
 
 
 # Run the application
-ENTRYPOINT ["java","-jar","evolv-app.jar"]
+ENTRYPOINT ["java","-Djava.net.preferIPv4Stack=true","-jar","evolv-app.jar"]
