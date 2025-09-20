@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: ${DB_CONN}
-    username: ${DB_USER}
-    password: ${DB_PASS}
+    url: "${EVOLV_SPRING_DB_CONN}"
+    username: "${EVOLV_SPRING_DB_USER}"
+    password: "${EVOLV_SPRING_DB_PASS}"
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -20,6 +20,11 @@ spring:
   jackson:
     serialization:
       write-dates-as-timestamps: false
+
+  app:
+    base:
+      url: "${EVOLV_SPRING_BASE_URL}"
+      auth_token: "${EVOLV_SPRING_AUTH_TOKEN}"
 
 evolv:
   jwt:

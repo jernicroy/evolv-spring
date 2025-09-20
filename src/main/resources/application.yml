@@ -5,6 +5,10 @@ spring:
   profiles:
     active: dev   # default profile
 
+  app:
+    allowed_paths: "/api/auth/**,/api/schedule/**"
+    redirect_url: ""
+
 server:
   port: 8080
   servlet:
