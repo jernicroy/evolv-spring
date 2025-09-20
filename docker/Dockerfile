@@ -13,6 +13,8 @@ RUN ./gradlew --no-daemon build -x test || return 0
 # Copy source code
 COPY src ./src
 
+RUN chmod +x gradlew
+
 # Build the app (skip tests for faster builds, remove -x test if you want tests)
 RUN ./gradlew clean bootJar --no-daemon -x test
 
