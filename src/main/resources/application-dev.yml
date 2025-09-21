@@ -16,8 +16,12 @@ spring:
           batch_size: 20
 
   liquibase:
-    enabled: true
+    enabled: false
     change-log: classpath:db/changelog/db.changelog-master.yaml
+    hikari:
+      maximum-pool-size: 1
+      connection-timeout: 10000
+      idle-timeout: 10000
 
   jackson:
     serialization:
