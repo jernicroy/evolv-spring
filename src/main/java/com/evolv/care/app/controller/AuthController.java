@@ -1,5 +1,6 @@
 package com.evolv.care.app.controller;
 
+import com.evolv.care.app.dto.LoginInfo;
 import com.evolv.care.app.exception.EVOLV_ERROR;
 import com.evolv.care.app.exception.ServerException;
 import com.evolv.care.app.security.filter.JwtUtil;
@@ -29,10 +30,10 @@ public class AuthController {
     private JwtUtil jwtUtil;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity<?> login(@RequestBody LoginInfo loginInfo) {
         try {
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(username, password)
+                    new UsernamePasswordAuthenticationToken(loginInfo.getUsername(), loginInfo.getPassword())
             );
 
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -41,7 +42,7 @@ public class AuthController {
                     .map(GrantedAuthority::getAuthority)
                     .orElse("USER");
 
-            String token = jwtUtil.generateToken(username, role);
+            String token = jwtUtil.generateToken(loginInfo.getUsername(), role);
             return ResponseEntity.ok(Map.of("token", token));
         } catch (BadCredentialsException ex){
             throw ServerException.error(EVOLV_ERROR.INVALID_USERNAME_OR_PASS);
