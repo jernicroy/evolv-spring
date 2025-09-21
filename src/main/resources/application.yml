@@ -8,8 +8,8 @@ spring:
   datasource:
     hikari:
       # Keep max pool size below Supabase shared pool limit (15)
-      maximum-pool-size: 10
-      minimum-idle: 2
+      maximum-pool-size: 5
+      minimum-idle: 1
       max-lifetime: 1800000 # 30 minutes
       connection-timeout: 30000 # 30 seconds
       idle-timeout: 30000 # 30 seconds
