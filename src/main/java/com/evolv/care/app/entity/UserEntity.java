@@ -29,7 +29,7 @@ public class UserEntity {
     private String email;
 
     @Column(name = "c100_hash_code")
-    private String hashCode;
+    private String userHashCode;
 
     @Column(name = "c100_role")
     private String role;

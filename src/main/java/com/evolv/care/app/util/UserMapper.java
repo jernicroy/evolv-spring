@@ -18,14 +18,6 @@ public interface UserMapper {
 
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-    @Mapping(source = "userName", target = "userName")
-    @Mapping(source = "shortName", target = "shortName")
-    @Mapping(source = "email", target = "email")
-    @Mapping(source = "hashCode", target = "hashCode")
-    @Mapping(source = "role", target = "role")
-    @Mapping(source = "token", target = "token")
-    @Mapping(source = "createdBy", target = "createdBy")
-    @Mapping(source = "createdDate", target = "createdDate")
     UserInfo toDto(UserEntity entity);
 
     UserEntity toEntity(UserInfo dto);

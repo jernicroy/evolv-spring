@@ -24,7 +24,7 @@ public class EvolvUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getHashCode();
+        return user.getUserHashCode();
     }
 
     @Override

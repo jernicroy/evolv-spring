@@ -45,7 +45,7 @@ public class AuthController {
                     .orElse("USER");
 
             UserInfo user = userService.getUserByName(loginInfo.getUsername());
-            user.setHashCode(null);
+            user.setUserHashCode(null);
             user.setToken(jwtUtil.generateToken(loginInfo.getUsername(), role));
 
             return ResponseEntity.ok(user);

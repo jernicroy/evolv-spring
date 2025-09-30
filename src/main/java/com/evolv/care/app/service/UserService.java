@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -42,7 +41,7 @@ public class UserService {
                 .userName(userInfo.getUserName())
                 .shortName(userInfo.getShortName())
                 .email(userInfo.getEmail())
-                .hashCode(passwordEncoder.encode(userInfo.getHashCode()))
+                .userHashCode(passwordEncoder.encode(userInfo.getUserHashCode()))
                 .role(userInfo.getRole())
                 .createdBy(String.valueOf(userId))
                 .createdDate(Instant.now())
@@ -66,7 +65,7 @@ public class UserService {
         UserEntity user = userRepository.findByUserName(username)
                 .orElseThrow(() -> ServerException.error(EVOLV_ERROR.USER_NOT_FOUND, username));
 
-        return userMapper.toDto(user);
+        return UserInfo.fromEntity(user);
     }
 
     public List<UserInfo> getAllUsers() {
