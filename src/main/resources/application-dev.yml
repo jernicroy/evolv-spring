@@ -19,11 +19,11 @@ spring:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yaml
     hikari:
-      maximum-pool-size: 7
-      minimum-idle: 2
+      maximum-pool-size: 5
       connection-timeout: 30000
       idle-timeout: 600000
       max-lifetime: 1800000
+      minimum-idle: 1
 
   jackson:
     serialization:
