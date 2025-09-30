@@ -6,7 +6,7 @@ databaseChangeLog:
         - createTable:
             tableName: t100_user
             schemaName: public
-            remarks: "User Table stores User Informations"
+            remarks: "User Table stores User Information"
             columns:
               - column:
                   name: c100_user_id
@@ -51,3 +51,39 @@ databaseChangeLog:
               - column:
                   name: c100_void_fl
                   type: VARCHAR(10)
+
+  - changeSet:
+      id: 002-add-unique-email
+      author: evolv
+      changes:
+        - addUniqueConstraint:
+            columnNames: c100_email
+            tableName: t100_user
+            constraintName: t100_user_c100_email_key
+
+  - changeSet:
+      id: 003-add-user-role-constraint
+      author: evolv
+      changes:
+        - sql:
+            splitStatements: false
+            sql: |
+              ALTER TABLE t100_user
+              ADD CONSTRAINT chk_user_role
+              CHECK (c100_role IN ('SUPER_ADMIN','ADMIN','USER'));
+
+  - changeSet:
+      id: 004-add-phone-address-to-user
+      author: evolv
+      changes:
+        - addColumn:
+            tableName: t100_user
+            columns:
+              - column:
+                  name: c100_phone_number
+                  type: VARCHAR(20)
+                  remarks: "User phone number"
+              - column:
+                  name: c100_address
+                  type: VARCHAR(255)
+                  remarks: "User address"
