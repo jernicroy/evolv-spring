@@ -1,6 +1,7 @@
 package com.evolv.care.app.controller;
 
 import com.evolv.care.app.dto.LoginInfo;
+import com.evolv.care.app.dto.UserInfo;
 import com.evolv.care.app.exception.EVOLV_ERROR;
 import com.evolv.care.app.exception.ServerException;
 import com.evolv.care.app.security.filter.JwtUtil;
@@ -16,8 +17,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -27,10 +26,13 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private JwtUtil jwtUtil;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginInfo loginInfo) {
+    public ResponseEntity<UserInfo> login(@RequestBody LoginInfo loginInfo) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginInfo.getUsername(), loginInfo.getPassword())
@@ -42,8 +44,11 @@ public class AuthController {
                     .map(GrantedAuthority::getAuthority)
                     .orElse("USER");
 
-            String token = jwtUtil.generateToken(loginInfo.getUsername(), role);
-            return ResponseEntity.ok(Map.of("token", token));
+            UserInfo user = userService.getUserByName(loginInfo.getUsername());
+            user.setHashCode(null);
+            user.setToken(jwtUtil.generateToken(loginInfo.getUsername(), role));
+
+            return ResponseEntity.ok(user);
         } catch (BadCredentialsException ex){
             throw ServerException.error(EVOLV_ERROR.INVALID_USERNAME_OR_PASS);
         }

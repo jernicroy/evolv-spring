@@ -2,6 +2,7 @@ package com.evolv.care.app.controller;
 
 import com.evolv.care.app.dto.UserInfo;
 import com.evolv.care.app.service.UserService;
+import com.evolv.care.app.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -49,9 +50,12 @@ public class UserController {
      * @param id the ID of the user
      * @return the user information for the given ID
      */
-    @GetMapping("/{id}")
+    @GetMapping("/me")
     @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','USER')")
-    public ResponseEntity<UserInfo> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserInfo> getUserById(@RequestParam(required = false) Long id) {
+        if(id == null){
+            id = SecurityUtils.getAuthenticatedUserId();
+        }
         return ResponseEntity.ok(userService.getUserById(id));
     }
 

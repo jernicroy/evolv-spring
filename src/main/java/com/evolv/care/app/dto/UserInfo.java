@@ -18,6 +18,7 @@ public class UserInfo {
     private String email;
     private String hashCode;
     private String role;
+    private String token;
     private String createdBy;
     private Instant createdDate;
 }

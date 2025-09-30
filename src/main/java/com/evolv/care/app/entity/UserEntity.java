@@ -34,6 +34,9 @@ public class UserEntity {
     @Column(name = "c100_role")
     private String role;
 
+    @Column(name = "c100_token")
+    private String token;
+
     @Column(name = "c100_created_by", nullable = false)
     private String createdBy;
 

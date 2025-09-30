@@ -32,6 +32,9 @@ databaseChangeLog:
                   name: c100_role
                   type: VARCHAR(255)
               - column:
+                  name: c100_token
+                  type: VARCHAR(255)
+              - column:
                   name: c100_created_by
                   type: VARCHAR(255)
                   constraints:
